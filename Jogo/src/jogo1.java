@@ -1,102 +1,76 @@
 import java.util.Scanner;
 
-public class CriarPersonagem {
-    private float pontosVida;
-    private int valorTotal;
-    private int[] atributos;
-    private String[] nomesAtributos;
-    private String[] nomesArmas;
-    private String[] nomesArmaduras;
-    private String nome;
+public class jogo1 {
+    private Jogador Jogador;
+    private Adversario[] adversarios;
 
-
-    public CriarPersonagem() {
-        pontosVida = 100;
-        valorTotal = 15;
-        atributos = new int[4];
-        nomesAtributos = new String[]{"Força", "Constituição", "Agilidade", "Destreza"};
-        nomesArmas = new String[]{"Espada medieval", "Arco e flecha", "Katana", "Adaga"};
-        nomesArmaduras = new String[]{"Armadura de Ferro", "Armadura de ouro"};
+    public jogo1() {
+        // Inicializar adversários
+        adversarios = new Adversario[6];
+        adversarios[0] = new Adversario("Goblin", 30, 5, 2, 3);
+        adversarios[1] = new Adversario("Orc", 50, 10, 5, 1);
+        adversarios[2] = new Adversario("Troll", 80, 15, 10, 1);
+        adversarios[3] = new Adversario("Dragão", 200, 20, 15, 2);
+        adversarios[4] = new Adversario("Lich", 150, 25, 10, 3);
+        adversarios[5] = new Adversario("Beholder", 100, 30, 5, 5);
     }
 
-    public String getNome() {
-        return nome;
-    }
-    
-    public void setNome(String nome) {
-        if (nome == null || nome.trim().length() == 0) {
-            System.out.println("Nome inválido. Tente novamente.");
-            System.exit(0);
-        }
-        for (int i = 0; i < nome.length(); i++) {
-            if (Character.isDigit(nome.charAt(i))) {
-                System.out.println("Nome inválido. Tente novamente.");
-                System.exit(0);
+    public void Menu() {
+        while (true) {
+            System.out.println("###########");
+            System.out.println("(1) Jogar");
+            System.out.println("(2) Historia");
+            System.out.println("(3) Creditos");
+            System.out.println("###########");
+            Scanner scanner = new Scanner(System.in);
+            int escolha = scanner.nextInt();
+
+            switch (escolha) {
+                case 1:
+                    CriarPersonagem();
+                    for (int i = 0; i < 3; i++) {
+                        combate(adversarios[i]);
+                    }
+                    break;
+                case 2:
+                    contarHistoria();
+                    break;
+                case 3:
+                    Creditos();
+                    break;
+                case 4:
+                    System.out.println("Ate a sua proxima aventura!");
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
             }
         }
-        this.nome = nome;
     }
 
-    public float getPontosVida() {
-        return pontosVida;
-    }
-
-    public void setPontosVida(float pontosVida) {
-        this.pontosVida = pontosVida;
-    }
-
-    public int getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(int valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-    public int[] getAtributos() {
-        return atributos;
-    }
-
-    public void setAtributos(int[] atributos) {
+    private void Creditos() {
+        System.out.println("Desenvolvido por: ");
+        System.out.println("Heior Parente");
+        System.out.println("Andre Buna");
         
-        this.atributos = atributos;
     }
 
-    public String[] getNomesAtributos() {
-        return nomesAtributos;
+    private void contarHistoria() {
+        System.out.println("Era uma vez um reino muito distante, onde um herói surgiu para salvar o reino de um terrível dragão.");
     }
 
-    public void setNomesAtributos(String[] nomesAtributos) {
-        this.nomesAtributos = nomesAtributos;
-    }
-
-    public String[] getNomesArmas() {
-        return nomesArmas;
-    }
-
-    public void setNomesArmas(String[] nomesArmas) {
-        this.nomesArmas = nomesArmas;
-    }
-
-    public String[] getNomesArmaduras() {
-        return nomesArmaduras;
-    }
-
-    public void setNomesArmaduras(String[] nomesArmaduras) {
-        this.nomesArmaduras = nomesArmaduras;
-    }
-
-    public static void main(String[] args) {
+    private void CriarPersonagem (){
         Scanner scanner = new Scanner(System.in);
-        CriarPersonagem personagem = new CriarPersonagem();
+        Jogador personagem = new Jogador();
+        
 
         System.out.println("#############################################");
         System.out.println("# Vamos Iniciar a criação do seu personagem #");
         System.out.println("#-------------------------------------------#");
         System.out.print("# Informe o nome do seu personagem: ");
         personagem.setNome(scanner.next());
-        int pontosDeVida = D6.rolarDado();
-        System.out.println("# Pontos de vida: " + pontosDeVida +       "#");
+        int D_6 = D6.rolarDado();
+        System.out.println("# Pontos de vida:   #");
         System.out.println("#---------------ATRIBUTOS-------------------#");
 
         for (int i = 0; i < 4; i++) {
@@ -138,7 +112,7 @@ public class CriarPersonagem {
         System.out.println("# Personagem Criado com Sucesso             #");
         System.out.println("#-------------------------------------------#");
         System.out.println("# Nome do personagem: " + personagem.getNome() + "                #");
-        System.out.println("# Pontos de vida: " + personagem.getPontosVida() + " #");
+        System.out.println("# Pontos de vida: " + (D_6 + D_6 + D_6 + personagem.getAtributos()[1]) + " #");
         System.out.println("#---------------ATRIBUTOS-------------------#");
         System.out.println("# Força: " + personagem.getAtributos()[0] + "                                  #");
         System.out.println("# Constituição: " + personagem.getAtributos()[1] + "                           #");
@@ -152,5 +126,30 @@ public class CriarPersonagem {
 
         scanner.close();
     }
-}
 
+
+    public void combate (Adversario adversario ){
+        System.out.println("Você entrou em combate contra " + adversario.getNome());
+        while (Jogador.estaVivo() && adversario.estaVivo()) {
+            System.out.println("Sua vez de atacar!!");
+            int dano = Jogador.atacar();
+            adversario.receberDano(dano);
+            System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
+
+            if (!adversario.estaVivo()) {
+                System.out.println("Você derrotou " + adversario.getNome());
+                return;
+            }
+
+            //turno do adversario
+            int danoAdversario = adversario.atacar();
+            Jogador.receberDano(danoAdversario);
+            System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
+
+            if (!Jogador.estaVivo()) {
+                System.out.println("Você foi derrotado por " + adversario.getNome());
+                return;
+            }
+        }
+    }
+}
