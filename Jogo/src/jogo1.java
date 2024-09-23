@@ -56,7 +56,7 @@ public class jogo1 {
     }
 
     private void contarHistoria() {
-        System.out.println("Era uma vez um reino muito distante, onde um herói surgiu para salvar o reino de um terrível dragão.");
+        System.out.println("Um pistoleiro chamado " + " está em busca da glória. Simplesmente acordou um dia de sua casa humilde e decidiu se tornar o maior pistoleiro de seu tempo. Então sua atual missao é enfrentar em um duelo os 3 maiores pistoleiros para assim conseguir provar o seu valor. Este é o inicio da sua jornada. Seu primeiro oponente eh o pistoleiro Jack “O Relâmpago” McGraw, dos três o mais fraco.");
     }
 
     private void CriarPersonagem (){
@@ -127,29 +127,38 @@ public class jogo1 {
         scanner.close();
     }
 
+    // public void Armadura(Jogador personagem) {
+    //     Armadura armadura = new Armadura(10); // Presumindo que você tenha uma classe Armadura
+    //     int defesaTotal = armadura.getDefesa() + (int)(10 + 1.5 * personagem.getAtributos()[1]);
+    //     System.out.println("A armadura do personagem é de " + defesaTotal + " pontos.");
+    // }
+    
 
-    public void combate (Adversario adversario ){
+    public void combate(Adversario adversario) {
         System.out.println("Você entrou em combate contra " + adversario.getNome());
+    
         while (Jogador.estaVivo() && adversario.estaVivo()) {
             System.out.println("Sua vez de atacar!!");
             int dano = Jogador.atacar();
             adversario.receberDano(dano);
             System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
-
+    
             if (!adversario.estaVivo()) {
                 System.out.println("Você derrotou " + adversario.getNome());
                 return;
             }
-
-            //turno do adversario
+    
+            // Turno do adversário
             int danoAdversario = adversario.atacar();
             Jogador.receberDano(danoAdversario);
             System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
 
+    
             if (!Jogador.estaVivo()) {
                 System.out.println("Você foi derrotado por " + adversario.getNome());
                 return;
             }
         }
     }
+    
 }

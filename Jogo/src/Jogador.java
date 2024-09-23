@@ -1,6 +1,8 @@
 import java.util.Random;
 import java.util.Scanner;
 
+
+
 public class Jogador {
     private String nome;
     private float pontosVida;
@@ -20,12 +22,12 @@ public class Jogador {
         this.valorTotal = 15;
         this.atributos = new int[4];
         this.nomesAtributos = new String[]{"Força", "Constituição", "Agilidade", "Destreza"};
-        this.nomesArmas = new String[]{"Espada medieval", "Arco e flecha", "Katana", "Adaga"};
+    this.nomesArmas = new String[]{"Revolver", "Escopeta","Rifle"};
         this.nomesArmaduras = new String[]{"Armadura de Ferro", "Armadura de ouro"};
     }
 
     public int atacar() {
-        return Math.max(0, Arma.getDano(this.f)) * this.atributos[0] - Armadura.getDefesa(this);
+        return Math.max(0, Arma.calcularDanoArma(this.nome, this.atributos[0])) - Armadura.getDefesa(this);
     }
 
     public void receberDano(int dano) {
