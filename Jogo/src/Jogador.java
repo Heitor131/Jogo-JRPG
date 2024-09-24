@@ -27,10 +27,11 @@ public class Jogador {
     }
 
     public int atacar() {
-        return Math.max(0, Arma.calcularDanoArma(this.nome, this.atributos[0])) - Armadura.getDefesa(this);
+        return Math.max(0, Arma.calcularDanoArma(this.nome, this.atributos[0]));
     }
 
     public void receberDano(int dano) {
+
         this.pontosVida -= dano;
     }
 
@@ -43,17 +44,10 @@ public class Jogador {
     }
     
     public void setNome(String nome) {
-        if (nome == null || nome.trim().length() == 0) {
-            System.out.println("Nome inválido. Tente novamente.");
-            System.exit(0);
+        if (nome.length() > 0) {
+            this.nome = nome;
         }
-        for (int i = 0; i < nome.length(); i++) {
-            if (Character.isDigit(nome.charAt(i))) {
-                System.out.println("Nome inválido. Tente novamente.");
-                System.exit(0);
-            }
-        }
-        this.nome = nome;
+        
     }
 
     public float getPontosVida() {
@@ -61,7 +55,10 @@ public class Jogador {
     }
 
     public void setPontosVida(float pontosVida) {
-        this.pontosVida = pontosVida;
+        if (pontosVida > 0) {
+            this.pontosVida = pontosVida;
+            
+        }
     }
 
     public int getValorTotal() {

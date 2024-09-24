@@ -6,6 +6,7 @@ public class Adversario {
     private int dano;
     private int defesa;
     private int agilidade;
+    
 
     public Adversario(String nome, int pv, int dano, int defesa, int agilidade) {
         this.nome = nome;

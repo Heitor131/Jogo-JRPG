@@ -1,45 +1,47 @@
 import java.util.Scanner;
 
 public class jogo1 {
-    private Jogador Jogador;
+    private Jogador jogador;
     private Adversario[] adversarios;
 
     public jogo1() {
         // Inicializar adversários
-        adversarios = new Adversario[6];
-        adversarios[0] = new Adversario("Goblin", 30, 5, 2, 3);
-        adversarios[1] = new Adversario("Orc", 50, 10, 5, 1);
-        adversarios[2] = new Adversario("Troll", 80, 15, 10, 1);
-        adversarios[3] = new Adversario("Dragão", 200, 20, 15, 2);
-        adversarios[4] = new Adversario("Lich", 150, 25, 10, 3);
-        adversarios[5] = new Adversario("Beholder", 100, 30, 5, 5);
+        this.jogador = new Jogador();
+        this.adversarios = new Adversario[3];
+        adversarios[0] = new Adversario("Jack - O Relâmpago", 15, 5, 2, 3);
+        adversarios[1] = new Adversario("Billy - O Silencioso", 20, 10, 5, 1);
+        adversarios[2] = new Adversario("Tom - O Falcão", 80, 15, 10, 1);
     }
 
     public void Menu() {
+        jogo1 jogo = new jogo1();
         while (true) {
             System.out.println("###########");
             System.out.println("(1) Jogar");
             System.out.println("(2) Historia");
             System.out.println("(3) Creditos");
+            System.out.println("(4) Sair");
             System.out.println("###########");
+            
             Scanner scanner = new Scanner(System.in);
             int escolha = scanner.nextInt();
 
             switch (escolha) {
                 case 1:
                     CriarPersonagem();
-                    for (int i = 0; i < 3; i++) {
-                        combate(adversarios[i]);
-                    }
+                    combate(null, jogador);
                     break;
                 case 2:
                     contarHistoria();
+                    ClearConsole.clear();
                     break;
                 case 3:
                     Creditos();
+                    ClearConsole.clear();
                     break;
                 case 4:
                     System.out.println("Ate a sua proxima aventura!");
+                    System.exit(0);
                     break;
                 default:
                     System.out.println("Opção inválida.");
@@ -71,6 +73,7 @@ public class jogo1 {
         personagem.setNome(scanner.next());
         int D_6 = D6.rolarDado();
         System.out.println("# Pontos de vida:   #");
+        int vida = (D_6 + D_6 + D_6 + personagem.getAtributos()[1]);
         System.out.println("#---------------ATRIBUTOS-------------------#");
 
         for (int i = 0; i < 4; i++) {
@@ -112,7 +115,7 @@ public class jogo1 {
         System.out.println("# Personagem Criado com Sucesso             #");
         System.out.println("#-------------------------------------------#");
         System.out.println("# Nome do personagem: " + personagem.getNome() + "                #");
-        System.out.println("# Pontos de vida: " + (D_6 + D_6 + D_6 + personagem.getAtributos()[1]) + " #");
+        System.out.println("# Pontos de vida: " + vida + " #");
         System.out.println("#---------------ATRIBUTOS-------------------#");
         System.out.println("# Força: " + personagem.getAtributos()[0] + "                                  #");
         System.out.println("# Constituição: " + personagem.getAtributos()[1] + "                           #");
@@ -127,37 +130,67 @@ public class jogo1 {
         scanner.close();
     }
 
-    // public void Armadura(Jogador personagem) {
-    //     Armadura armadura = new Armadura(10); // Presumindo que você tenha uma classe Armadura
-    //     int defesaTotal = armadura.getDefesa() + (int)(10 + 1.5 * personagem.getAtributos()[1]);
-    //     System.out.println("A armadura do personagem é de " + defesaTotal + " pontos.");
-    // }
-    
-
-    public void combate(Adversario adversario) {
+    // Removed unused private method Adversario
+    public void combate(Adversario adversario, Jogador jogador) {
+        Jogador Jogador = new Jogador();
+        Adversario Adversario = new Adversario("Jack - O Relâmpago", 15, 5, 2, 3);
+        Scanner scanner = new Scanner(System.in);
+        jogo1 CriarPersonagem = new jogo1();
         System.out.println("Você entrou em combate contra " + adversario.getNome());
     
-        while (Jogador.estaVivo() && adversario.estaVivo()) {
-            System.out.println("Sua vez de atacar!!");
-            int dano = Jogador.atacar();
-            adversario.receberDano(dano);
-            System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
-    
-            if (!adversario.estaVivo()) {
+        while (true) {
+            if (Jogador.estaVivo()) {
+                System.out.println("Sua vez de jogar!!");
+                System.out.println("Escolha uma ação:");
+                System.out.println("(1) Atacar");
+                System.out.println("(2) Fugir");
+                int escolha = scanner.nextInt();
+                switch (escolha) {
+                    case 1:
+                        int dano = Jogador.atacar();
+                        adversario.receberDano(dano);
+                        System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
+                        break;
+                    case 2:
+                        System.out.println("Você fugiu do combate.");
+                        break;
+                }
+                
+            } else if (adversario.estaVivo()) {
                 System.out.println("Você derrotou " + adversario.getNome());
                 return;
             }
-    
-            // Turno do adversário
-            int danoAdversario = adversario.atacar();
-            Jogador.receberDano(danoAdversario);
-            System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
+            if (adversario.estaVivo()) {
+                System.out.println("Vez do adiversario atacar!!");
+                int danoAdversario = adversario.atacar();
+                Jogador.receberDano(danoAdversario);
+                System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
 
-    
-            if (!Jogador.estaVivo()) {
+                return;
+            } else if (!Jogador.estaVivo()) {
                 System.out.println("Você foi derrotado por " + adversario.getNome());
                 return;
             }
+            // System.out.println("Sua vez de atacar!!");
+            // int dano = Jogador.atacar();
+            // adversario.receberDano(dano);
+            // System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
+    
+            // if (!adversario.estaVivo()) {
+            //     System.out.println("Você derrotou " + adversario.getNome());
+            //     return;
+            // }
+    
+            // // Turno do adversário
+            // int danoAdversario = adversario.atacar();
+            // Jogador.receberDano(danoAdversario);
+            // System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
+
+    
+            // if (!Jogador.estaVivo()) {
+            //     System.out.println("Você foi derrotado por " + adversario.getNome());
+            //     return;
+            // }
         }
     }
     

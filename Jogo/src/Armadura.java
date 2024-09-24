@@ -1,30 +1,50 @@
-// public class Armadura {
-//     private int defesa;
-
-//     public Armadura(int defesa) {
-        
-//         this.defesa = defesa;
-//     }
-
-//     public int getDefesa() {
-//         return defesa;
-//     }
-// }
-
-
 public class Armadura {
-    private int defesa;
 
-    public Armadura(int defesa) {
-        this.defesa = defesa; // Exemplo de armadura com 10 de defesa
+    Jogador jogador;
+    private String nome;
+    private int ConstDefesa;
+    private int redAgilidade;
+
+    public double getDefesa() {
+        return ConstDefesa;
     }
 
-    public int getDefesa(int constituicao) {
-        return defesa + constituicao + ;
+    public void setDefesa(int defesa) {
+        this.ConstDefesa = this.ConstDefesa + (int)(1.5 * Integer.parseInt(jogador.getNomesAtributos()[1]));
     }
 
-    public void mostrarDefesa(Jogador personagem) {
-        int defesaTotal = getDefesaTotal(personagem);
-        System.out.println("A armadura do personagem é de " + defesaTotal + " pontos.");
+    private double defesa;
+
+    public Armadura(int constDefesa, String nome, int redAgilidade){
+        this.ConstDefesa = constDefesa;
+        this.nome = nome;
+        this.redAgilidade = redAgilidade;
+
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getConstDefesa() {
+        return ConstDefesa;
+    }
+
+    public void setConstDefesa(int constDefesa) {
+        ConstDefesa = constDefesa;
+    }
+
+    public int getRedAgilidade() {
+        return redAgilidade;
+    }
+
+    public void setRedAgilidade(int redAgilidade) {
+        this.redAgilidade = redAgilidade;
+    }
+
+    
 }

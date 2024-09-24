@@ -1,5 +1,12 @@
+import java.util.Random;
+import java.util.Scanner;
+
 public class Jogo{
     public static void main(String[] args) throws Exception {
+
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
         System.out.println("██████████████████████████████████████████████████████████████████\n" + //
                         "█▌                                                              ▐█\n" + //
                         "█▌ __      __.__.__       .___  __      __                 __   ▐█\n" + //
@@ -10,8 +17,14 @@ public class Jogo{
                         "█▌       \\/                \\/         \\/       \\/     \\/        ▐█\n" + //
                         "█▌                                                              ▐█\n" + //
                         "██████████████████████████████████████████████████████████████████");
-        jogo1 Jogo = new jogo1();
-        Jogo.Menu();
+
+                        System.out.print(">> Press any key to continue <<");
+                        scanner.nextLine();
+        
+        
+        jogo1 jogo = new jogo1();
+        jogo.Menu();
+        ClearConsole.clear();
         
     }
 }
