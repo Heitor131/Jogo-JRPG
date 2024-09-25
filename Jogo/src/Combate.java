@@ -1,9 +1,11 @@
 // Arquivo: Jogo.java
 import java.util.Scanner;
 
+import ArmaArmadura.Arma;
 import ArmaArmadura.Armadura;
 import Dados.D6;
 import Personagens.*;
+
 
 public class Combate {  
     private Jogador jogador;
@@ -12,10 +14,14 @@ public class Combate {
 
     public Combate() {
         this.jogador = new Jogador();
-        this.adversarios = new Adversario[3];
-        adversarios[0] = new Adversario("Jack - O Relâmpago", 25, 10, 2, 3);
+        this.adversarios = new Adversario[7];
+        adversarios[0] = new Adversario("Jack - O Relâmpago", 25, 10, 2, 10);
         adversarios[1] = new Adversario("Billy - O Silencioso", 30, 15, 5, 3);
         adversarios[2] = new Adversario("Tom - O Falcão", 40, 15, 10, 5);
+        adversarios[3] = new Adversario("John - O Implacável", 50, 20, 15, 7);
+        adversarios[4] = new Adversario("Sam - O Rápido", 60, 25, 20, 10);
+        adversarios[5] = new Adversario("Joe - O Mortal", 70, 30, 25, 15);
+        adversarios[6] = new Adversario("Bill - O Destemido", 80, 35, 30, 20);
         this.scanner = new Scanner(System.in);  
     }
 
@@ -24,7 +30,8 @@ public class Combate {
             System.out.println("###########");
             System.out.println("(1) Jogar");
             System.out.println("(2) Historia");
-            System.out.println("(3) Sair");
+            System.out.println("(3) Creditos");
+            System.out.println("(4) Sair");
             System.out.println("###########");
             
             int escolha = scanner.nextInt();
@@ -35,14 +42,37 @@ public class Combate {
                     criarPersonagem();
                     ClearConsole.clear();
                     if (jogador.estaVivo()) combate(adversarios[0], jogador);  // Agora passamos o adversário corretamente
+                    System.out.println("Você ganhou 10 pontos de vida!!");
+                    jogador.setPontosVida(jogador.getPontosVida() + 10);
                     if (jogador.estaVivo()) combate(adversarios[1], jogador);
+                    System.out.println("Você ganhou 6 pontos de força!!");
+                    jogador.getAtributos()[0] += 6;
                     if (jogador.estaVivo()) combate(adversarios[2], jogador);
+                    System.out.println("Parabéns! Você venceu todos os adversários!");
+                    System.out.println("Você ganhou 10 pontos de vida + 10 pontos de força e + 5 pontos de agilidade!!");
+                    jogador.setPontosVida(jogador.getPontosVida() + 10);
+                    jogador.getAtributos()[0] += 10;
+                    jogador.getAtributos()[2] += 5;
+                    if(jogador.estaVivo()) combate(adversarios[3], jogador);
+                    if(jogador.estaVivo()) combate(adversarios[4], jogador);
+                    if(jogador.estaVivo()) combate(adversarios[5], jogador);
+                    System.out.println("Parabéns! Você venceu todos os adversários!");
+                    System.out.println("Vpcê pode trocar sua armadura por uma melhor e ganhar 10 pontos de vida + 10 pontos de força e + 5 pontos de agilidade!!");
+                    jogador.setPontosVida(jogador.getPontosVida() + 10);
+                    jogador.getAtributos()[0] += 10;
+                    jogador.getAtributos()[2] += 5;
+
                     break;
                 case 2:
                     ClearConsole.clear();
                     contarHistoria();
                     break;
+
                 case 3:
+                    ClearConsole.clear();
+                    creditos();
+                    break;
+                case 4:
                     System.out.println("Até a sua próxima aventura!");
                     System.exit(0);
                     break;
@@ -54,9 +84,18 @@ public class Combate {
     }
 
     private void creditos() {
+        System.out.println("######################");
         System.out.println("Desenvolvido por: ");
         System.out.println("Heior Parente");
         System.out.println("Andre Buna");
+        System.out.println("----------------------");
+        System.out.println("Deseja voltar ao menu?");
+        System.out.println("(1) Sim");
+        System.out.println("######################");
+        if (scanner.nextInt() == 1) {
+            ClearConsole.clear();
+            menu();
+        }
     }
 
     private void contarHistoria() {
@@ -133,21 +172,40 @@ public class Combate {
     }
 
     public void combate(Adversario adversario, Jogador jogador) {
+        Pocao porcao = new Pocao();
+
+    
         System.out.println("Você entrou em combate contra " + adversario.getNome());
 
         while (jogador.estaVivo() && adversario.estaVivo()) {
+            System.out.println("#############################################");
+            System.out.println("Vida do jogador: " + jogador.getPontosVida());
+            System.out.println("Vida do adversário: " + adversario.getPv());
+            System.out.println("#############################################");
+
+
             if (jogador.getAtributos()[2] > adversario.getAgilidade()) {
                 // Turno do jogador
                 System.out.println("Você ataca primeiro!");
                 System.out.println("Sua vez de atacar!");
                 System.out.println("(1) Atacar");
-                System.out.println("(2) Fugir");
+                System.out.println("(2) Usar poção");
+                System.out.println("(3) Fugir");
+
                 int escolha = scanner.nextInt();
                 if (escolha == 1) {
                     int dano = jogador.atacar();
                     adversario.receberDano(dano);
                     System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
-                } else {
+                } else if (escolha == 2) {
+
+                    if (porcao.getQuantidadePorcao() > 0) {
+                        porcao.pocao(jogador);
+                    } else {
+                        System.out.println("Você não tem mais poções");
+                    }
+                    
+                }else {
                     System.out.println("Você fugiu do combate.");
                     System.out.println("Deseja continuar jogando?");
                     System.out.println("(1) Sim");
@@ -162,27 +220,33 @@ public class Combate {
                     }
                     return ;
                 }
-
                 if (!adversario.estaVivo()) {
                     System.out.println("Você derrotou " + adversario.getNome());
                     return;
                 } 
+                // System.out.println("#############################################");
+                // System.out.println("Vida do jogador: " + jogador.getPontosVida());
+                // System.out.println("Vida do adversário: " + adversario.getPv());
+                // System.out.println("#############################################");
 
                 // Turno do adversário
                 System.out.println("Vez do adversário atacar!");
                 int danoAdversario = adversario.atacar();
                 jogador.receberDano(danoAdversario);
                 System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
-
                 if (!jogador.estaVivo()) {
                     System.out.println("Você foi derrotado por " + adversario.getNome());
                     return;
                 }
 
             } else {
+                // System.out.println("#############################################");
+                // System.out.println("Vida do jogador: " + jogador.getPontosVida());
+                // System.out.println("Vida do adversário: " + adversario.getPv());
+                // System.out.println("#############################################\n");
+
                 System.out.println(adversario.getNome() + " ataca primeiro!");
                 // Turno do adversário  
-                System.out.println("Vez do adversário atacar!");
                 int danoAdversario = adversario.atacar();
                 jogador.receberDano(danoAdversario);
                 System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
@@ -192,21 +256,45 @@ public class Combate {
                     return;
                     
                 }
-                
+                // System.out.println("#############################################");
+                // System.out.println("Vida do jogador: " + jogador.getPontosVida());
+                // System.out.println("Vida do adversário: " + adversario.getPv());
+                // System.out.println("#############################################\n");
                 // Turno do jogador
+                System.out.println("Você ataca primeiro!");
                 System.out.println("Sua vez de atacar!");
                 System.out.println("(1) Atacar");
-                System.out.println("(2) Fugir");
+                System.out.println("(2) Usar poção");
+                System.out.println("(3) Fugir");
+
                 int escolha = scanner.nextInt();
                 if (escolha == 1) {
                     int dano = jogador.atacar();
                     adversario.receberDano(dano);
                     System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
-                } else {
+                } else if (escolha == 2) {
+
+                    if (porcao.getQuantidadePorcao() > 0) {
+                        porcao.pocao(jogador);
+                    } else {
+                        System.out.println("Você não tem mais poções");
+                    }
+                    
+                }else {
                     System.out.println("Você fugiu do combate.");
+                    System.out.println("Deseja continuar jogando?");
+                    System.out.println("(1) Sim");
+                    System.out.println("(2) Não");
+                    if (scanner.nextInt() == 1) {
+                        combate(adversario, jogador);
+                        
+                    }else{
+                        System.out.println("Até a próxima aventura!");
+                        Combate combate = new Combate();
+                        combate.menu();
+                    }
                     return ;
                 }
-
                 if (!adversario.estaVivo()) {
                     System.out.println("Você derrotou " + adversario.getNome());
                     return;

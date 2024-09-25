@@ -1,5 +1,7 @@
 package Personagens;
 
+import Dados.D6;
+
 public class Adversario {
     private String nome;
     private int pv;
@@ -16,7 +18,7 @@ public class Adversario {
     }
 
     public int atacar() {
-        return Math.max(0, dano - defesa);
+        return Math.max(0, dano = (int) (D6.rolarDado() - defesa));
     }
 
     public void receberDano(int dano) {

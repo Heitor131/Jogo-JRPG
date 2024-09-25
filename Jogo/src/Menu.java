@@ -20,7 +20,7 @@ public class Menu{
                         scanner.nextLine();
         
         ClearConsole.clear();
-        Combate combate = new Combate();
+        Combate combate = new Combate();   
         combate.menu();
         ClearConsole.clear();
         
