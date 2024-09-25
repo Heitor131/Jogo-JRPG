@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 import ArmaArmadura.Armadura;
 import Dados.D6;
-import Personagens.Adversario;
 import Personagens.*;
 
 public class Combate {  
@@ -33,13 +32,14 @@ public class Combate {
             switch (escolha) {
                 case 1:
                     criarPersonagem();
+                    ClearConsole.clear();
                     if (jogador.estaVivo()) combate(adversarios[0], jogador);  // Agora passamos o adversário corretamente
                     if (jogador.estaVivo()) combate(adversarios[1], jogador);
                     if (jogador.estaVivo()) combate(adversarios[2], jogador);
                     break;
                 case 2:
-                    contarHistoria();
                     ClearConsole.clear();
+                    contarHistoria();
                     break;
                 case 3:
                     System.out.println("Até a sua próxima aventura!");
@@ -59,8 +59,8 @@ public class Combate {
     }
 
     private void contarHistoria() {
-        System.out.println("Um pistoleiro está em busca da glória...");
-        System.out.println("Seu primeiro oponente é Jack “O Relâmpago”, dos três o mais fraco.");
+        System.out.println("Um pistoleiro está em busca da glória. Simplesmente acordou um dia de sua casa humilde e decidiu se tornar o maior pistoleiro de seu tempo. Então sua atual missao é enfrentar em um duelo os 3 maiores pistoleiros para assim conseguir provar o seu valor. Este é o inicio da sua jornada. Seu primeiro oponente eh o pistoleiro Jack “O Relâmpago” McGraw, dos três o mais fraco.");
+        //System.out.println("Seu primeiro oponente é Jack “O Relâmpago”, dos três o mais fraco.");
     }
 
     private void criarPersonagem() {
@@ -148,14 +148,22 @@ public class Combate {
                     System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
                 } else {
                     System.out.println("Você fugiu do combate.");
+                    System.out.println("Deseja continuar jogando?");
+                    System.out.println("(1) Sim");
+                    System.out.println("(2) Não");
+                    if (scanner.nextInt() == 1) {
+                        combate(adversario, jogador);
+                        
+                    }else{
+                        System.out.println("Até a próxima aventura!");
+                        Combate combate = new Combate();
+                        combate.menu();
+                    }
                     return ;
                 }
 
                 if (!adversario.estaVivo()) {
                     System.out.println("Você derrotou " + adversario.getNome());
-                    System.out.println("Voce ganhou 10 de vida");
-                    jogador.setPontosVida(jogador.getPontosVida() + 10);
-                    System.out.println("Vida atual: " + jogador.getPontosVida());
                     return;
                 } 
 
