@@ -31,6 +31,7 @@ public class Combate {
 
             switch (escolha) {
                 case 1:
+                    ClearConsole.clear();
                     criarPersonagem();
                     ClearConsole.clear();
                     if (jogador.estaVivo()) combate(adversarios[0], jogador);  // Agora passamos o adversário corretamente
@@ -176,7 +177,6 @@ public class Combate {
                 if (!jogador.estaVivo()) {
                     System.out.println("Você foi derrotado por " + adversario.getNome());
                     return;
-                    
                 }
 
             } else {
