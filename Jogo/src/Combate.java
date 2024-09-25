@@ -43,16 +43,17 @@ public class Combate {
                     ClearConsole.clear();
                     if (jogador.estaVivo()) combate(adversarios[0], jogador);  // Agora passamos o adversário corretamente
                     System.out.println("Você ganhou 10 pontos de vida!!");
-                    jogador.setPontosVida(jogador.getPontosVida() + 10);
+                    jogador.setPontosVida(jogador.getPontosVida() + 10); // adiciona a recompensa
                     if (jogador.estaVivo()) combate(adversarios[1], jogador);
-                    System.out.println("Você ganhou 6 pontos de força!!");
+                    System.out.println("Você ganhou 6 pontos de força!!"); // adiciona a recompensa
                     jogador.getAtributos()[0] += 6;
                     if (jogador.estaVivo()) combate(adversarios[2], jogador);
                     System.out.println("Parabéns! Você venceu todos os adversários!");
-                    System.out.println("Você ganhou 10 pontos de vida + 10 pontos de força e + 5 pontos de agilidade!!");
-                    jogador.setPontosVida(jogador.getPontosVida() + 10);
+                    System.out.println("Você ganhou 10 pontos de vida + 10 pontos de força e + 5 pontos de agilidade!!"); // adiciona a recompensa
+                    jogador.setPontosVida(jogador.getPontosVida() + 10);// adiciona a recompensa
                     jogador.getAtributos()[0] += 10;
-                    jogador.getAtributos()[2] += 5;
+                    jogador.getAtributos()[2] += 5;// adiciona a recompensa
+                    //Partir daqui não ta funcinando ainda
                     if(jogador.estaVivo()) combate(adversarios[3], jogador);
                     if(jogador.estaVivo()) combate(adversarios[4], jogador);
                     if(jogador.estaVivo()) combate(adversarios[5], jogador);
