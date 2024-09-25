@@ -25,8 +25,7 @@ public class Combate {
             System.out.println("###########");
             System.out.println("(1) Jogar");
             System.out.println("(2) Historia");
-            System.out.println("(3) Creditos");
-            System.out.println("(4) Sair");
+            System.out.println("(3) Sair");
             System.out.println("###########");
             
             int escolha = scanner.nextInt();
@@ -34,19 +33,15 @@ public class Combate {
             switch (escolha) {
                 case 1:
                     criarPersonagem();
-                    combate(adversarios[0], jogador);  // Agora passamos o adversário corretamente
-                    combate(adversarios[1], jogador);
-                    combate(adversarios[2], jogador);
+                    if (jogador.estaVivo()) combate(adversarios[0], jogador);  // Agora passamos o adversário corretamente
+                    if (jogador.estaVivo()) combate(adversarios[1], jogador);
+                    if (jogador.estaVivo()) combate(adversarios[2], jogador);
                     break;
                 case 2:
                     contarHistoria();
                     ClearConsole.clear();
                     break;
                 case 3:
-                    creditos();
-                    ClearConsole.clear();
-                    break;
-                case 4:
                     System.out.println("Até a sua próxima aventura!");
                     System.exit(0);
                     break;
@@ -160,6 +155,7 @@ public class Combate {
                     System.out.println("Você derrotou " + adversario.getNome());
                     System.out.println("Voce ganhou 10 de vida");
                     jogador.setPontosVida(jogador.getPontosVida() + 10);
+                    System.out.println("Vida atual: " + jogador.getPontosVida());
                     return;
                 } 
 
