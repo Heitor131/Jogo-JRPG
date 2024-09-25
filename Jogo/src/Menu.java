@@ -1,11 +1,9 @@
-import java.util.Random;
 import java.util.Scanner;
 
-public class Jogo{
+public class Menu{
     public static void main(String[] args) throws Exception {
 
         Scanner scanner = new Scanner(System.in);
-        Random random = new Random();
 
         System.out.println("██████████████████████████████████████████████████████████████████\n" + //
                         "█▌                                                              ▐█\n" + //
@@ -22,8 +20,8 @@ public class Jogo{
                         scanner.nextLine();
         
         
-        jogo1 jogo = new jogo1();
-        jogo.Menu();
+        Combate combate = new Combate();
+        combate.menu();
         ClearConsole.clear();
         
     }
