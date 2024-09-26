@@ -17,7 +17,7 @@ public class Jogador {
         this.atributos = new int[4];
         this.nomesAtributos = new String[] { "Força", "Constituição", "Agilidade", "Destreza" };
         this.nomesArmas = new String[] { "Revolver", "Escopeta", "Rifle" };
-        this.nomesArmaduras = new String[] { "Armadura de Ferro", "Armadura de ouro" };
+        this.nomesArmaduras = new String[] { "Sorte", "Virtude", "Coragem" };
     }
 
     public int atacar() {

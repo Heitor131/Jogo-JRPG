@@ -1,6 +1,8 @@
 package ArmaArmadura;
-
+//oi 
 import Personagens.Jogador;
+
+
 
 public class Armadura {
     Jogador jogador;
@@ -14,6 +16,11 @@ public class Armadura {
         this.redAgilidade = redAgilidade;
     }
 
+    public void calacularDefesa() {
+        setDefesa();
+    }
+
+    
     public double getDefesa() {
         return constDefesa;
     }

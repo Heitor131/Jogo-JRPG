@@ -7,6 +7,7 @@ import Dados.D6;
 import Personagens.*;
 
 
+
 public class Combate {  
     private Jogador jogador;
     private Adversario[] adversarios;
@@ -62,7 +63,6 @@ public class Combate {
                     jogador.setPontosVida(jogador.getPontosVida() + 10);
                     jogador.getAtributos()[0] += 10;
                     jogador.getAtributos()[2] += 5;
-
                     break;
                 case 2:
                     ClearConsole.clear();
@@ -151,7 +151,7 @@ public class Combate {
         for (int e = 0; e < jogador.getNomesArmaduras().length; e++) {
             System.out.println((e + 1) + ". " + jogador.getNomesArmaduras()[e]);
         }
-        System.out.print("Selecione a armadura (1-2): ");
+        System.out.print("Selecione a armadura (1-3): ");
         int escolhaArmadura = scanner.nextInt();
         String armaduraEscolhida = jogador.getNomesArmaduras()[escolhaArmadura - 1];
         
@@ -173,12 +173,11 @@ public class Combate {
     }
 
     public void combate(Adversario adversario, Jogador jogador) {
-        Pocao porcao = new Pocao();
-
-    
+        
         System.out.println("Você entrou em combate contra " + adversario.getNome());
 
         while (jogador.estaVivo() && adversario.estaVivo()) {
+            Pocao pocao = new Pocao();
             System.out.println("#############################################");
             System.out.println("Vida do jogador: " + jogador.getPontosVida());
             System.out.println("Vida do adversário: " + adversario.getPv());
@@ -191,7 +190,8 @@ public class Combate {
                 System.out.println("Sua vez de atacar!");
                 System.out.println("(1) Atacar");
                 System.out.println("(2) Usar poção");
-                System.out.println("(3) Fugir");
+                System.out.println("(3) Defesa");
+                System.out.println("(4) Fugir");
 
                 int escolha = scanner.nextInt();
                 if (escolha == 1) {
@@ -200,13 +200,18 @@ public class Combate {
                     System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
                 } else if (escolha == 2) {
 
-                    if (porcao.getQuantidadePorcao() > 0) {
-                        porcao.pocao(jogador);
+                    if (pocao.getQuantidadePorcao() > 0) {
+                        pocao.pocao(jogador);
                     } else {
                         System.out.println("Você não tem mais poções");
                     }
                     
-                }else {
+                }else if (escolha == 3) {
+                    Armadura armadura = new Armadura(0, "Sorte", 0);
+                    armadura.calacularDefesa();
+                    System.out.println("Você se defendeu com sucesso!");
+                    
+                } else {
                     System.out.println("Você fugiu do combate.");
                     System.out.println("Deseja continuar jogando?");
                     System.out.println("(1) Sim");
@@ -239,68 +244,80 @@ public class Combate {
                     System.out.println("Você foi derrotado por " + adversario.getNome());
                     return;
                 }
-
+                // se a agilidade do jogador for menor que a do adversário, o adversário ataca primeiro
             } else {
-                // System.out.println("#############################################");
-                // System.out.println("Vida do jogador: " + jogador.getPontosVida());
-                // System.out.println("Vida do adversário: " + adversario.getPv());
-                // System.out.println("#############################################\n");
-
                 System.out.println(adversario.getNome() + " ataca primeiro!");
                 // Turno do adversário  
-                int danoAdversario = adversario.atacar();
-                jogador.receberDano(danoAdversario);
-                System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
+                System.out.println("Você quer defender");
+                System.out.println("(1) Sim");
+                System.out.println("(2) Não");
+                int escolhaDefesa = scanner.nextInt();
+                if (escolhaDefesa == 1) {
+                    Armadura armadura = new Armadura(0, "Sorte", 0);
+                    armadura.calacularDefesa();
+                    System.out.println("Você se defendeu com sucesso!");
+                } else {
+                    int danoAdversario = adversario.atacar();
+                    jogador.receberDano(danoAdversario);
+                    System.out.println(adversario.getNome() + " atacou você com " + danoAdversario + " de dano.");
 
-                if (!jogador.estaVivo()) {
-                    System.out.println("Você foi derrotado por " + adversario.getNome());
-                    return;
-                    
-                }
-                // System.out.println("#############################################");
-                // System.out.println("Vida do jogador: " + jogador.getPontosVida());
-                // System.out.println("Vida do adversário: " + adversario.getPv());
-                // System.out.println("#############################################\n");
-                // Turno do jogador
-                System.out.println("Você ataca primeiro!");
-                System.out.println("Sua vez de atacar!");
-                System.out.println("(1) Atacar");
-                System.out.println("(2) Usar poção");
-                System.out.println("(3) Fugir");
+                    if (!jogador.estaVivo()) {
+                        System.out.println("Você foi derrotado por " + adversario.getNome());
+                        return;
+                        
+                    }
 
-                int escolha = scanner.nextInt();
-                if (escolha == 1) {
-                    int dano = jogador.atacar();
-                    adversario.receberDano(dano);
-                    System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
-                } else if (escolha == 2) {
+                    System.out.println("Você ataca primeiro!");
+                    System.out.println("Sua vez de atacar!");
+                    System.out.println("(1) Atacar");
+                    System.out.println("(2) Usar poção");
+                    System.out.println("(3) Defesa");
+                    System.out.println("(4) Fugir");
 
-                    if (porcao.getQuantidadePorcao() > 0) {
-                        porcao.pocao(jogador);
+                    int escolha = scanner.nextInt();
+                    if (escolha == 1) {
+                        int dano = jogador.atacar();
+                        adversario.receberDano(dano);
+                        System.out.println("Você atacou " + adversario.getNome() + " com " + dano + " de dano.");
+                    } else if (escolha == 2) {
+                        if (pocao.getQuantidadePorcao() > 0) {
+                            pocao.pocao(jogador);
+                        } else {
+                            System.out.println("Você não tem mais poções");
+                        }
+                    }else if (escolha == 3) {
+                        Armadura armadura = new Armadura(0, "Sorte", 0);
+                        armadura.calacularDefesa();
+                        System.out.println("Você se defendeu com sucesso!");
+                    } else {
+                        System.out.println("Você fugiu do combate.");
+                        System.out.println("Deseja continuar jogando?");
+                        System.out.println("(1) Sim");
+                        System.out.println("(2) Não");
+                        if (scanner.nextInt() == 1) {
+                            combate(adversario, jogador);
+                            
+                        }else{
+                            System.out.println("Até a próxima aventura!");
+                            Combate combate = new Combate();
+                            combate.menu();
+                        }
+                        return ;
+                    }
+
+                    if (pocao.getQuantidadePorcao() > 0) {
+                        pocao.pocao(jogador);
                     } else {
                         System.out.println("Você não tem mais poções");
                     }
-                    
-                }else {
-                    System.out.println("Você fugiu do combate.");
-                    System.out.println("Deseja continuar jogando?");
-                    System.out.println("(1) Sim");
-                    System.out.println("(2) Não");
-                    if (scanner.nextInt() == 1) {
-                        combate(adversario, jogador);
+
+                    if (!adversario.estaVivo()) {
+                        System.out.println("Você derrotou " + adversario.getNome());
+                        return;
                         
-                    }else{
-                        System.out.println("Até a próxima aventura!");
-                        Combate combate = new Combate();
-                        combate.menu();
                     }
-                    return ;
                 }
-                if (!adversario.estaVivo()) {
-                    System.out.println("Você derrotou " + adversario.getNome());
-                    return;
-                    
-                }
+
             }
             
         }
